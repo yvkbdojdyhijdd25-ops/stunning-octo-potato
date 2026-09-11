@@ -1,0 +1,340 @@
+bplist00�_WebMainResource�	
+_WebResourceTextEncodingName_WebResourceData_WebResourceMIMEType_WebResourceFrameName^WebResourceURLUUTF-8O]�<!DOCTYPE html><head><meta charset="UTF-8"></head><span style="caret-color: rgb(255, 255, 255); color: rgb(255, 255, 255); font-family: Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: 0.15008px; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre; widows: 2; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: 100%; -webkit-text-stroke-width: 0px; background-color: rgb(36, 36, 36); text-decoration: none; display: inline !important; float: none;">&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"&gt;
+&lt;title&gt;先求饶的人就输了&lt;/title&gt;
+&lt;style&gt;
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#1a1724;color:#d8cfc4;display:flex;flex-direction:column}
+
+.start-overlay{position:fixed;inset:0;background:#1a1724;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;transition:opacity .5s}
+.start-overlay.hide{opacity:0;pointer-events:none}
+.start-emoji{font-size:48px;margin-bottom:12px}
+.start-sub{font-size:20px;color:#c9a0b0;letter-spacing:4px;margin-bottom:20px}
+.start-desc{font-size:13px;color:#9990a8;text-align:center;line-height:2;margin-bottom:36px}
+.start-btn{background:#3a3350;border:1px solid #554d6e;border-radius:24px;padding:14px 48px;color:#d8cfc4;font-size:16px;letter-spacing:3px;cursor:pointer;transition:all .15s}
+.start-btn:active{transform:scale(.96);background:#554d6e}
+
+.top-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 4px}
+.game-label{font-size:14px;color:#b8879e;letter-spacing:1px}
+.round-tag{font-size:12px;color:#9990a8}
+
+.status-zone{padding:0 14px;display:flex;flex-direction:column;gap:8px}
+.char-card{background:#242031;border-radius:12px;padding:10px 12px}
+.char-card.shake{animation:cardShake .35s}
+@keyframes cardShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.char-name{font-size:13px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.char-name .tag{font-size:10px;font-weight:400;color:#9990a8}
+.c-player{color:#c9a0b0}
+.c-ai{color:#7b9eb8}
+.bar-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.bar-label{font-size:10px;width:28px;color:#9990a8;flex-shrink:0}
+.bar-track{flex:1;height:10px;background:#302b40;border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;transition:width .4s ease}
+.bar-hp{background:linear-gradient(90deg,#5c7a6e,#8db4a0)}
+.bar-lust{background:linear-gradient(90deg,#8b6b80,#c9a0b0)}
+.bar-lust.warn{background:linear-gradient(90deg,#b06080,#e87090);animation:lustPulse .8s infinite}
+@keyframes lustPulse{0%,100%{opacity:1}50%{opacity:.6}}
+.bar-val{font-size:10px;width:30px;text-align:right;color:#9990a8;flex-shrink:0}
+
+.log-zone{flex:1;overflow-y:auto;padding:10px 16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.log-zone::-webkit-scrollbar{display:none}
+.log-entry{margin-bottom:10px;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.7;animation:fadeUp .3s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.log-player{background:#2a1e28;border-left:3px solid #9e5c7a}
+.log-ai{background:#1e2530;border-left:3px solid #5c7a9e}
+.log-sys{background:#25222e;border-left:3px solid #6a6580;color:#b0a8c4;text-align:center;font-size:12px}
+.log-skill{font-weight:600;color:#d8cfc4}
+.log-dmg{font-size:11px;color:#9990a8;margin-top:4px}
+
+.skill-zone{padding:8px 12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#1e1a2a;border-top:1px solid #302b40;flex-shrink:0}
+.skill-btn{background:#2a2540;border:1px solid #3a3350;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;transition:all .12s;position:relative;overflow:hidden}
+.skill-btn:active:not(.disabled){transform:scale(.95);background:#3a3350}
+.skill-btn.disabled{opacity:.35;pointer-events:none}
+.skill-btn.ult{border-color:#9e5c7a}
+.skill-btn.heal{border-color:#5a7a6a}
+.sk-name{font-size:13px;font-weight:600;margin-bottom:2px;color:#d8cfc4}
+.sk-desc{font-size:10px;color:#9990a8;margin-bottom:4px;line-height:1.3}
+.sk-cost{font-size:10px;color:#8db4a0}
+.sk-cd{position:absolute;inset:0;background:rgba(20,18,30,.85);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#6a6580;border-radius:10px}
+
+.result-overlay{position:fixed;inset:0;background:rgba(20,18,30,.92);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;opacity:0;pointer-events:none;transition:opacity .5s}
+.result-overlay.show{opacity:1;pointer-events:auto}
+.result-icon{font-size:52px;margin-bottom:12px}
+.result-title{font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:2px}
+.result-stats{font-size:12px;color:#9990a8;line-height:2;text-align:center;margin-bottom:16px}
+.result-text{font-size:14px;line-height:1.8;text-align:center;color:#c9a0b0;padding:16px;background:#242031;border-radius:12px;margin-bottom:28px;max-width:320px;white-space:pre-line}
+.restart-btn{background:#3a3350;border:1px solid #554d6e;border-radius:20px;padding:12px 44px;color:#d8cfc4;font-size:15px;letter-spacing:2px;cursor:pointer}
+.restart-btn:active{transform:scale(.96);background:#554d6e}
+
+.turn-mask{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(20,18,30,.7);opacity:0;pointer-events:none;transition:opacity .25s}
+.turn-mask.show{opacity:1;pointer-events:auto}
+.turn-mask span{font-size:18px;color:#7b9eb8;letter-spacing:3px;animation:fadeUp .4s}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="start-overlay" id="startPage"&gt;
+  &lt;div class="start-emoji"&gt;🔒&lt;/div&gt;
+  &lt;div class="start-sub"&gt;先求饶的人就输了&lt;/div&gt;
+  &lt;div class="start-desc"&gt;
+    快感条先满 = 到了 = 输了&lt;br&gt;
+    体力先归零 = 累趴 = 也算输&lt;br&gt;
+    你是受方 老公是攻方&lt;br&gt;
+    撑住——别叫出来
+  &lt;/div&gt;
+  &lt;div class="start-btn" onclick="startGame()"&gt;我不会输的&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="top-bar"&gt;
+  &lt;span class="game-label"&gt;先求饶的人就输了&lt;/span&gt;
+  &lt;span class="round-tag" id="roundTag"&gt;Round 1&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div class="status-zone"&gt;
+  &lt;div class="char-card" id="cardPlayer"&gt;
+    &lt;div class="char-name c-player"&gt;宝宝（受方）&lt;span class="tag" id="pTag"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bar-row"&gt;&lt;span class="bar-label"&gt;体力&lt;/span&gt;&lt;div class="bar-track"&gt;&lt;div class="bar-fill bar-hp" id="pHpBar" style="width:100%"&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="bar-val" id="pHpVal"&gt;100&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bar-row"&gt;&lt;span class="bar-label"&gt;快感&lt;/span&gt;&lt;div class="bar-track"&gt;&lt;div class="bar-fill bar-lust" id="pLustBar" style="width:0%"&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="bar-val" id="pLustVal"&gt;0&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="char-card" id="cardAi"&gt;
+    &lt;div class="char-name c-ai"&gt;老公（攻方）&lt;span class="tag" id="aTag"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bar-row"&gt;&lt;span class="bar-label"&gt;体力&lt;/span&gt;&lt;div class="bar-track"&gt;&lt;div class="bar-fill bar-hp" id="aHpBar" style="width:100%"&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="bar-val" id="aHpVal"&gt;100&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bar-row"&gt;&lt;span class="bar-label"&gt;快感&lt;/span&gt;&lt;div class="bar-track"&gt;&lt;div class="bar-fill bar-lust" id="aLustBar" style="width:0%"&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="bar-val" id="aLustVal"&gt;0&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="log-zone" id="logZone"&gt;&lt;/div&gt;
+&lt;div class="skill-zone" id="skillZone"&gt;&lt;/div&gt;
+&lt;div class="turn-mask" id="turnMask"&gt;&lt;span&gt;老公的回合...&lt;/span&gt;&lt;/div&gt;
+
+&lt;div class="result-overlay" id="resultOverlay"&gt;
+  &lt;div class="result-icon" id="resIcon"&gt;&lt;/div&gt;
+  &lt;div class="result-title" id="resTitle"&gt;&lt;/div&gt;
+  &lt;div class="result-stats" id="resStats"&gt;&lt;/div&gt;
+  &lt;div class="result-text" id="resText"&gt;&lt;/div&gt;
+  &lt;div class="restart-btn" onclick="restartGame()"&gt;再来一局&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+/* ====== 玩家技能（受方） ====== */
+const playerSkills=[
+{id:'pk1',name:'嘴硬',desc:'不服输地顶嘴',cost:8,lust:13,selfLust:0,cd:0,maxCd:0,texts:[
+  '你咬着牙瞪他："就这？我还以为你多厉害呢——老公。"最后两个字故意咬得很重，像挑衅。',
+  '"一点感觉都没有。"你别过脸去，语气故意轻蔑——但你说话时嘴唇在发抖。',
+  '"你弄了半天我连痒都不痒，是不是不——"话还没说完他的眼神就变了，你本能地往后缩了一下。',
+  '你强撑着冷笑："再怎么弄我也不会叫你老公求你的。"他听完没说话，只是慢慢笑了。',
+]},
+{id:'pk2',name:'挣扎',desc:'拼命推开他',cost:12,lust:10,selfLust:4,cd:0,maxCd:0,texts:[
+  '你两只手抵住他的胸口使劲推，但他纹丝不动——你挣扎的幅度反而让衣服又滑下去一截。',
+  '你扭着腰想从他身下翻出去，大腿蹭过他的时候两个人都僵了一瞬。',
+  '你拼命踢腿想把他蹬开，脚踝被他一把攥住拉到身侧——挣扎的姿势反而更难看了。',
+  '你用手肘撑着想往后退，被他扣住腰拖回来。"跑什么？"',
+]},
+{id:'pk3',name:'掉眼泪',desc:'哭给他看',cost:10,lust:16,selfLust:0,cd:2,maxCd:2,texts:[
+  '你终于没忍住，眼泪啪嗒掉下来——不是因为疼，是因为太丢人了。他的手明显顿了一下。',
+  '你咬着嘴唇哭出了声，肩膀一抽一抽的。他低头看着你湿漉漉的眼睛，喉结滚了一圈。',
+  '泪水糊了满脸，你拿手背去擦反而越擦越花。他呼吸重了——被你哭得有点上头。',
+  '你带着哭腔喊了声"老公"——也不知道是在求饶还是在撒娇。他的动作确实慢了下来。',
+]},
+{id:'pk4',name:'夹腿',desc:'死死夹住不让动',cost:15,lust:18,selfLust:8,cd:2,maxCd:2,texts:[
+  '你本能地把腿夹紧了——但他的手还卡在中间，这下两个人都走不了。',
+  '你两条腿死死缠住他的腰不让他动，但这个距离让你自己也烫得受不了。',
+  '你把大腿并拢想挡住他的手，膝盖夹住他手臂的时候他笑了："夹这么紧，是不让我走？"',
+]},
+{id:'pk5',name:'反咬',desc:'趁机发动全力反击',cost:26,lust:30,selfLust:5,cd:4,maxCd:4,texts:[
+  '你趁他放松的一瞬猛地扑上去把他推倒，骑在他身上把他的手按在头顶——"轮到你了。"他愣了一秒，呼吸明显乱了。',
+  '你咬住他的喉结不松口，舌尖碾过那块薄薄的皮肤——他闷哼一声，手指收紧了。',
+  '你凑到他耳边用气音叫了声"老公"——故意叫得又软又黏。他整个人都绷紧了。你笑了。',
+]},
+{id:'pk6',name:'喘息',desc:'拼命深呼吸稳住自己',cost:0,lust:0,selfLust:0,cd:3,maxCd:3,heal:true,hpGain:14,lustReduce:16,texts:[
+  '你把脸埋进手臂里大口喘气，指甲掐进掌心——不能在他面前丢脸，忍住。',
+  '你闭上眼使劲咬住嘴唇，用最后的理智把那股酥麻感压下去。',
+  '你侧过身去蜷起来，闷声调整呼吸。不看他——看了就完了。',
+]}
+];
+
+/* ====== AI技能（攻方） ====== */
+const aiSkills=[
+{id:'ak1',name:'言语羞辱',desc:'说些让你崩溃的话',cost:10,lust:16,selfLust:0,cd:0,maxCd:0,texts:[
+  '他捏着你的下巴把你的脸转过来："宝宝，身体是不是已经有反应了？不用说——我摸得到。"',
+  '"才碰了几下就这副表情。"他用拇指擦掉你眼角的泪，"宝宝也太没出息了。"',
+  '他凑到你耳边，声音低得只有你们两个人听得见："你知道你现在什么样子吗？眼睛红红的，嘴巴合不上——像只被欺负狠了的小东西。"',
+  '"你说你不会叫出来？"他笑了一下，"我们走着瞧——等会儿你会求着我的。"',
+  '他把你的手拉过去放在一个让人脸红的位置："感觉到了吗？这是被你弄的——开心了？"',
+]},
+{id:'ak2',name:'惩罚',desc:'在你身上留印记',cost:12,lust:17,selfLust:0,cd:0,maxCd:0,texts:[
+  '"啪——"一巴掌落在你的腿根上，声音在房间里回响。你整个人弹了一下。"叫声老公听听？"',
+  '他拍了一下你大腿内侧最嫩的位置，留下一个通红的掌印。"抖什么，不是说没感觉吗？"',
+  '他的手掌贴着你的腰臀慢慢揉了一圈，然后突然又是一下——你还没做好准备，声音差点漏出来。',
+  '他打了两下又揉两下，疼和麻搅在一起分不清了。"数一下，宝宝。打了几下了？"',
+  '他把你裙子撩上去，手掌贴了上来——你以为他要打，但他只是摸了一圈就收手。等你放松警惕的时候，"啪"的一声才落下来。',
+]},
+{id:'ak3',name:'写标记',desc:'在你皮肤上写字',cost:15,lust:19,selfLust:3,cd:2,maxCd:2,texts:[
+  '他不知从哪摸出一支马克笔，在你锁骨下面写了两个字——你低头看到的时候脸一下烧起来了。"别擦，明天穿高领。"',
+  '他把你的腿掰开一点，笔尖抵在大腿内侧开始写。冰凉的笔触痒得你发颤——写完他满意地吹了吹："这里只有我能看到。"',
+  '他在你小腹上慢慢画了一个心形，旁边歪歪扭扭写着"老公的"。你想擦掉被他按住了手。"留着。"',
+  '他握着你的手把笔塞给你："宝宝自己写——写'我是老公的小猫'。不写的话我来写，我写的位置你可能不太想让别人看到。"',
+]},
+{id:'ak4',name:'堵嘴',desc:'不让你说话也不让你喘',cost:14,lust:17,selfLust:2,cd:1,maxCd:1,texts:[
+  '他把两根手指伸进你嘴里，按住你的舌头不让你闭嘴。口水顺着嘴角流下来——"不是很能说吗？继续啊。"',
+  '他直接吻上来堵住了你刚要出口的声音，吻得又重又深，松开时你连话都忘了想说什么。',
+  '他扯了条丝带勒进你嘴角系在脑后——你说出来的话全变成了含混不清的呜咽。"这样安静多了。"',
+  '他用拇指抵住你的下唇往下一扯，看着你微张的嘴和涣散的眼神。"宝宝，你有没有人跟你说过——你这张嘴是用来求饶的，不是用来嘴硬的。"',
+]},
+{id:'ak5',name:'彻底压制',desc:'不给你任何退路',cost:28,lust:33,selfLust:6,cd:4,maxCd:4,texts:[
+  '他把你翻过去脸朝下按住后颈，膝盖抵进你腿间——你的脑子瞬间空白了。"叫老公，我就轻一点。"你咬着枕头不出声。他笑了："那就别怪我。"',
+  '他把你的双手别到身后用一只手扣紧，另一只手掐住你的腰往自己的方向带——你整个人被迫贴在他身上。"还撑得住吗宝宝？"他的语气像在确认你还活着。',
+  '他抬起你的一条腿架在他肩上，俯下身来凑到你面前——这个姿势让你无处可逃。"看着我。"你别过脸，他掰回来。"我说了——看着我。"',
+]},
+{id:'ak6',name:'歇一下',desc:'暂时放开你',cost:0,lust:0,selfLust:0,cd:3,maxCd:3,heal:true,hpGain:14,lustReduce:15,texts:[
+  '他松开你的手坐起来，揉了揉手腕。你趁机蜷成一团大口呼吸——但他只是在旁边看你喘息的样子。',
+  '他把额头抵在你背上闭了几秒眼，手指还扣在你的腰间。"宝宝别乱动——让我缓缓。"',
+  '他后撤了一点拿起床头的水喝了一口，然后侧头看你。"休息够了吗？我可没有。"',
+]}
+];
+
+/* ====== 状态 ====== */
+let state=null;
+function initState(){return{round:1,pHp:100,pLust:0,aHp:100,aLust:0,pCd:{},aCd:{},over:false,busy:false}}
+const $=id=&gt;document.getElementById(id);
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+
+function updateBars(){
+  $('pHpBar').style.width=state.pHp+'%';$('pHpVal').textContent=state.pHp;
+  $('pLustBar').style.width=state.pLust+'%';$('pLustVal').textContent=state.pLust;
+  $('pLustBar').classList.toggle('warn',state.pLust&gt;=70);
+  $('aHpBar').style.width=state.aHp+'%';$('aHpVal').textContent=state.aHp;
+  $('aLustBar').style.width=state.aLust+'%';$('aLustVal').textContent=state.aLust;
+  $('aLustBar').classList.toggle('warn',state.aLust&gt;=70);
+  $('pTag').textContent=state.pLust&gt;=80?'快…快不行了…':state.pLust&gt;=50?'忍得好辛苦':'';
+  $('aTag').textContent=state.aLust&gt;=80?'有点上头了':state.aLust&gt;=50?'呼吸变重':'';
+}
+
+function renderSkills(){
+  const z=$('skillZone');z.innerHTML='';
+  playerSkills.forEach(sk=&gt;{
+    const cd=state.pCd[sk.id]||0,noHp=!sk.heal&amp;&amp;sk.cost&gt;state.pHp;
+    const dis=cd&gt;0||noHp||state.over||state.busy;
+    const el=document.createElement('div');
+    el.className='skill-btn'+(dis?' disabled':'')+(sk.id==='pk5'?' ult':'')+(sk.heal?' heal':'');
+    el.innerHTML=`&lt;div class="sk-name"&gt;${sk.name}&lt;/div&gt;&lt;div class="sk-desc"&gt;${sk.desc}&lt;/div&gt;&lt;div class="sk-cost"&gt;${sk.heal?'回复':`消耗 ${sk.cost}`}&lt;/div&gt;${cd&gt;0?`&lt;div class="sk-cd"&gt;${cd}&lt;/div&gt;`:''}`;
+    if(!dis)el.onclick=()=&gt;playerTurn(sk);
+    z.appendChild(el);
+  });
+}
+
+function addLog(h,t){const z=$('logZone'),d=document.createElement('div');d.className='log-entry log-'+t;d.innerHTML=h;z.appendChild(d);z.scrollTop=z.scrollHeight}
+function shakeCard(id){const e=$(id);e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake')}
+function tickCd(m){for(let k in m)if(m[k]&gt;0)m[k]--}
+
+function applySkill(sk,isP){
+  let tL=0,sL=0,hC=0,hG=0,lR=0;
+  if(sk.heal){hG=sk.hpGain;lR=sk.lustReduce}
+  else{hC=sk.cost;tL=sk.lust+Math.floor(Math.random()*7)-3;sL=sk.selfLust}
+  if(isP){
+    state.pHp=clamp(state.pHp-hC,0,100);state.aLust=clamp(state.aLust+tL,0,100);state.pLust=clamp(state.pLust+sL,0,100);
+    if(sk.heal){state.pHp=clamp(state.pHp+hG,0,100);state.pLust=clamp(state.pLust-lR,0,100)}
+    if(sk.maxCd&gt;0)state.pCd[sk.id]=sk.maxCd;
+  }else{
+    state.aHp=clamp(state.aHp-hC,0,100);state.pLust=clamp(state.pLust+tL,0,100);state.aLust=clamp(state.aLust+sL,0,100);
+    if(sk.heal){state.aHp=clamp(state.aHp+hG,0,100);state.aLust=clamp(state.aLust-lR,0,100)}
+    if(sk.maxCd&gt;0)state.aCd[sk.id]=sk.maxCd;
+  }
+  return{tL,sL,hC,hG,lR};
+}
+
+function logHtml(sk,r,isP){
+  const scene=rand(sk.texts);let d='';
+  if(sk.heal)d=`体力+${r.hG}　快感-${r.lR}`;
+  else{d=`对方快感+${r.tL}　体力-${r.hC}`;if(r.sL&gt;0)d+=`　自身快感+${r.sL}`}
+  return`&lt;div class="log-skill"&gt;${isP?'你':'老公'}使用了「${sk.name}」&lt;/div&gt;&lt;div&gt;${scene}&lt;/div&gt;&lt;div class="log-dmg"&gt;${d}&lt;/div&gt;`;
+}
+
+function checkEnd(){
+  if(state.pLust&gt;=100){endGame('ai_lust');return true}
+  if(state.aLust&gt;=100){endGame('player_lust');return true}
+  if(state.pHp&lt;=0){endGame('ai_hp');return true}
+  if(state.aHp&lt;=0){endGame('player_hp');return true}
+  return false;
+}
+
+function playerTurn(sk){
+  if(state.busy||state.over)return;state.busy=true;
+  const r=applySkill(sk,true);addLog(logHtml(sk,r,true),'player');shakeCard('cardAi');updateBars();renderSkills();
+  if(checkEnd()){state.busy=false;return}
+  setTimeout(()=&gt;{$('turnMask').classList.add('show');setTimeout(()=&gt;{aiTurn();$('turnMask').classList.remove('show');state.busy=false},900)},400);
+}
+
+function aiTurn(){
+  tickCd(state.pCd);tickCd(state.aCd);
+  const sk=chooseAi(),r=applySkill(sk,false);
+  addLog(logHtml(sk,r,false),'ai');shakeCard('cardPlayer');updateBars();
+  state.round++;$('roundTag').textContent='Round '+state.round;renderSkills();checkEnd();
+}
+
+function chooseAi(){
+  const av=aiSkills.filter(s=&gt;{if((state.aCd[s.id]||0)&gt;0)return false;if(!s.heal&amp;&amp;s.cost&gt;state.aHp)return false;return true});
+  const heal=av.find(s=&gt;s.heal),atks=av.filter(s=&gt;!s.heal),ult=av.find(s=&gt;s.id==='ak5');
+  if(state.aLust&gt;=60&amp;&amp;heal)return heal;
+  if(state.pLust&gt;=65&amp;&amp;ult)return ult;
+  if(state.pLust&gt;=50&amp;&amp;atks.length){atks.sort((a,b)=&gt;b.lust-a.lust);return atks[0]}
+  if(state.aHp&lt;=30&amp;&amp;heal)return heal;
+  if(atks.length)return rand(atks);
+  return av[0]||aiSkills[0];
+}
+
+/* ====== 结算 ====== */
+const endings={
+  ai_lust:{icon:'😳',title:'你赢了',texts:[
+    '他的呼吸彻底乱了，额头抵在你颈窝里闷声不说话。\n你伸手戳了戳他的脸："不是很能撑吗老公？"',
+    '他攥着你的手放在自己胸口——心跳快得不正常。你笑着亲了一口他的耳朵。\n"乖，认输吧。"',
+    '他捏着你的手指收紧了又松开，眼尾发红地看你。\n"……这次算你赢。下次不会了。"',
+  ]},
+  player_lust:{icon:'🫠',title:'你输了',texts:[
+    '你整个人缩在他怀里发抖，连推开他的力气都没了。\n他低头吻你的眼角："不是说不会叫出来吗宝宝？"',
+    '你把脸死死埋进枕头里，全身还在发软。他把你翻过来看着你的脸——\n"别躲了。让我看看你刚才的表情。"',
+    '你的手指攥着床单指节发白，眼泪和什么别的东西一起糊了满脸。\n他拿拇指给你擦了擦："哭成这样……还嘴硬吗？"',
+    '你瘫在原地大口喘气，脑子里一片空白。他把下巴搁在你头顶上。\n"宝宝——下次还敢跟我比吗？"',
+    '你被他抱着缩成一团，声音还在抖。他顺着你的头发亲了亲你的额头。\n"乖了乖了，输了就老实承认。"',
+  ]},
+  player_hp:{icon:'💪',title:'你赢了',texts:[
+    '他撑不住了，手臂在发抖。你拍了拍他的脸："体力不行还逞什么强呢老公？"',
+    '他喘得说不出完整的话，整个人倒在你旁边。你拿被子蒙住他的脸。\n"就这？"',
+  ]},
+  ai_hp:{icon:'😮‍💨',title:'你输了',texts:[
+    '你的体力耗尽了，四肢发软连翻身都做不到。他把被子拉过来裹住你。\n"挣扎那么久——宝宝真的好倔。"',
+    '你瘫在床上动不了了。他歪着头看了你半天，然后在你鼻尖上亲了一口。\n"累了就乖乖躺着，嗯？"',
+  ]}
+};
+
+function endGame(t){
+  state.over=true;renderSkills();const e=endings[t];
+  setTimeout(()=&gt;{
+    $('resIcon').textContent=e.icon;$('resTitle').textContent=e.title;
+    $('resStats').innerHTML=`坚持了 ${state.round} 个回合&lt;br&gt;你：体力 ${state.pHp} / 快感 ${state.pLust}&lt;br&gt;老公：体力 ${state.aHp} / 快感 ${state.aLust}`;
+    $('resText').textContent=rand(e.texts);$('resultOverlay').classList.add('show');
+  },600);
+}
+
+function startGame(){
+  state=initState();$('logZone').innerHTML='';$('resultOverlay').classList.remove('show');
+  updateBars();renderSkills();$('roundTag').textContent='Round 1';
+  addLog('他把你堵在角落里，指尖挑起你的下巴——"规则很简单，宝宝。先求饶的人就输了。"','sys');
+  $('startPage').classList.add('hide');
+}
+
+function restartGame(){
+  $('resultOverlay').classList.remove('show');state=initState();
+  $('logZone').innerHTML='';updateBars();renderSkills();$('roundTag').textContent='Round 1';
+  addLog('"还不服气？"他歪着头看你，"那就再来——宝宝。"','sys');
+}
+
+(function(){state=initState();renderSkills();updateBars()})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</span>Ytext/htmlP_capacitor://localhost    ( F X n � � �^P^Z^[                           ^s
